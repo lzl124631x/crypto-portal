@@ -12,7 +12,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-console.log(settings)
 binance.options({
     APIKEY: settings.APIKEY,
     APISECRET: settings.APISECRET, 
