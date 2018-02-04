@@ -23,6 +23,7 @@
         <td>{{getPrice(symbol, globalState.prices) * balance.total}}</td>
       </tr>
     </table>
+    <div>Grand Total: {{ grandTotal() }}</div>
 
     <button class="btn btn-save-snapshot" @click="addSnapshot">Add Snapshot</button>
 
@@ -78,12 +79,12 @@ export default {
     service.cnyusd();
   },
   methods: {
-    getPrice(symbol, prices) {
+    getPrice(symbol, prices, target) {
       if (!prices) return 0;
-      if (symbol == "ADA") {
-        console.log("SYM");
+
+      if (!target) {
+        target = this.target;
       }
-      let target = this.target;
       let cny = target == "CNY";
       if (cny) target = "USDT";
       let price;
@@ -95,7 +96,7 @@ export default {
         price = prices[symbol + target];
         if (!price) {
           // No USDT pair
-          price = prices[symbol + "BTC"] * this.getPrice("BTC", prices);
+          price = prices[symbol + "BTC"] * this.getPrice("BTC", prices, target);
         }
       }
       price = price ? +price : 0;
@@ -145,6 +146,9 @@ export default {
       return this.precise(x) + "%";
     },
     grandTotal(snapshot) {
+      if (!snapshot) {
+        snapshot = store.state;
+      }
       return _.reduce(
         snapshot.balances,
         (total, balance, symbol) => {
