@@ -30,6 +30,7 @@ export default {
   --hover-background-color: #ddd;
   --secondary-text-color: #555;
   --border-color: #f4f4f4;
+  --btn-background-color: #aaa;
 }
 
 .night-mode {
@@ -42,6 +43,7 @@ export default {
   --secondary-text-color: #aaa;
   --border-color: #444;
   --highlight-background-color: #222;
+  --btn-background-color: #222;
 }
 
 html,

@@ -7,6 +7,10 @@ function get(url) {
     return axios.get(backendUrl + url);
 }
 
+function post(url, params) {
+    return axios.post(backendUrl + url, params);
+}
+
 export default {
     prices() {
         return get('/ticker/prices').then((res) => {
@@ -27,7 +31,7 @@ export default {
         });
 
         ws.addEventListener('close', (error) => {
-           console.log('close');
+            console.log('close');
         });
     },
     orders() {
@@ -39,6 +43,16 @@ export default {
         return get('/snapshots').then(res => {
             store.updateSnapshots(res.data);
         })
+    },
+    addSnapshot(snapshot) {
+        return post('/addSnapshot', snapshot).then(res => {
+            store.addSnapshot(snapshot);
+        });
+    },
+    deleteSnapshot(snapshot) {
+        return post('/deleteSnapshot', snapshot.timestamp).then(res => {
+            store.deleteSnapshot(snapshot);
+        });
     },
     balances() {
         return get('/balances').then(res => {

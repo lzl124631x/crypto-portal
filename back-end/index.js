@@ -8,6 +8,7 @@ const _ = require('lodash');
 const http = require('http');
 const WebSocket = require('ws');
 const settings = require('./settings.json');
+const fs = require('fs');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -29,13 +30,8 @@ const portfolios = [
 
 app.get('/api/allOrders', (req, res) => {
     binance.allOrders("ETHUSDT", (error, orders, symbol) => {
-        console.log(symbol+" orders:", orders);
         res.send(orders);
     });
-});
-
-app.get('/api/snapshots', (req, res) => {
-
 });
 
 app.get('/api/ticker/prices', (req, res) => {
@@ -49,6 +45,54 @@ app.get('/api/balances', (req, res) => {
         res.send(balances);
     })
 });
+
+
+app.get('/api/snapshots', (req, res) => {
+    readSnapshots((data) => {
+        res.send(data);
+    })
+});
+
+app.post('/api/addSnapshot', (req, res) => {
+    addSnapshot(req.body, (snapshots) => {
+        res.send("");
+    });
+});
+
+app.post('/api/deleteSnapshot', (req, res) => {
+    deleteSnapshot(req.body, (snapshots) => {
+        res.send("");
+    });
+});
+
+const SnapshotFilePath = './db/snapshots.json';
+function addSnapshot(snapshot, callback) {
+    readSnapshots((snapshots) => {
+        snapshots.push(snapshot);
+        let json = JSON.stringify(snapshots);
+        fs.writeFile(SnapshotFilePath, json, 'utf8', () => {
+            callback(snapshots);
+        });
+    })
+}
+
+function deleteSnapshot(snapshot, callback) {
+    readSnapshots((snapshots) => {
+        let index = snapshots.findIndex(s => s.timestamp === snapshot.timestamp);
+        snapshots.splice(index, 1);
+        let json = JSON.stringify(snapshots);
+        fs.writeFile(SnapshotFilePath, json, 'utf8', () => {
+            callback(snapshots);
+        });
+    })
+}
+
+function readSnapshots(callback) {
+    fs.readFile(SnapshotFilePath, 'utf8', (error, data) => {
+        let snapshots = JSON.parse(data);
+        callback(snapshots);
+    })
+}
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })

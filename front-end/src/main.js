@@ -46,6 +46,13 @@ window.store = {
     orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
     this.state.orders = orders;
   },
+  addSnapshot(snapshot) {
+    this.state.snapshots.unshift(snapshot);
+  },
+  deleteSnapshot(snapshot) {
+    let index = this.state.snapshots.findIndex(s => s.timestamp === snapshot.timestamp);
+    this.state.snapshots.splice(index, 1);
+  },
   updateSnapshots (snapshots) {
     this.state.snapshots = snapshots;
   },
