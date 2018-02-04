@@ -23,7 +23,9 @@ window.store = {
   state: {
     prices: {},
     tickers: {},
-    orders: []
+    orders: [],
+    snapshots: [],
+    balances: {}
   },
   updatePrices (prices) {
     this.state.prices = prices
@@ -43,6 +45,17 @@ window.store = {
     });
     orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
     this.state.orders = orders;
+  },
+  updateSnapshots (snapshots) {
+    this.state.snapshots = snapshots;
+  },
+  updateBalances (balances) {
+    _.forOwn(balances, b => {
+      b.available = +b.available;
+      b.onOrder = +b.onOrder;
+      b.total = b.available + b.onOrder;
+    });
+    this.state.balances = balances;
   }
 }
 

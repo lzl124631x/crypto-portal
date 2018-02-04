@@ -49,24 +49,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-table {
-  width: 100%;
-  border-collapse: collapse;
-  td,
-  th {
-    padding: 0.5em;
-  }
-  tr + tr {
-    td {
-      border-bottom: 1px solid var(--border-color);
-    }
-  }
-  th {
-    color: var(--secondary-text-color);
-    font-weight: normal;
-    font-size: 0.8em;
-  }
-}
 .pair {
   .side-badge {
     display: inline-block;

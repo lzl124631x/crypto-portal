@@ -63,4 +63,36 @@ body,
 ul {
   list-style: none;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  th {
+    background-color: var(--header-color);
+  }
+  td,
+  th {
+    padding: 0.5em;
+  }
+  tr + tr {
+    td {
+      border-bottom: 1px solid var(--border-color);
+    }
+  }
+  th {
+    color: var(--secondary-text-color);
+    font-weight: normal;
+    font-size: 0.8em;
+  }
+}
+
+label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  .text {
+    padding-left: 0.5em;
+    font-size: 0.8em;
+  }
+}
 </style>

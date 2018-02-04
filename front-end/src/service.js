@@ -33,7 +33,16 @@ export default {
     orders() {
         return get('/allOrders').then((res) => {
             store.updateOrders(res.data);
-            console.log(res.data);
         });
+    },
+    snapshots() {
+        return get('/snapshots').then(res => {
+            store.updateSnapshots(res.data);
+        })
+    },
+    balances() {
+        return get('/balances').then(res => {
+            store.updateBalances(res.data);
+        })
     }
 }

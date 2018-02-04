@@ -1,5 +1,6 @@
 # crypto-portal
 
 # TODO
-1. [ ] add snapshot feature
-2. [ ] list history orders
+1. [x] list history orders
+1. [x] balance page
+1. [ ] snapshot page

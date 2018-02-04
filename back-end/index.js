@@ -32,7 +32,23 @@ app.get('/api/allOrders', (req, res) => {
         console.log(symbol+" orders:", orders);
         res.send(orders);
     });
-})
+});
+
+app.get('/api/snapshots', (req, res) => {
+
+});
+
+app.get('/api/ticker/prices', (req, res) => {
+    binance.prices((error, prices) => {
+        res.send(prices);
+    });
+});
+
+app.get('/api/balances', (req, res) => {
+    binance.balance((error, balances) => {
+        res.send(balances);
+    })
+});
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })
@@ -44,7 +60,7 @@ wss.on('connection', (ws, req) => {
     });
 
     ws.on('error', () => {
-        console.log('err')
+        console.log('err');
     });
 
     binance.websockets.prevDay(false, (error, response) => {

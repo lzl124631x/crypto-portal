@@ -1,7 +1,9 @@
 <template>
-  <div class="home-page page" >
+  <div class="home-page page">
     <div class="nav">
       <router-link class="nav-item" to="order-history">Order History</router-link>
+      <router-link class="nav-item" to="snapshot">Snapshots</router-link>
+      <router-link class="nav-item" to="balance">Balance</router-link>
     </div>
 
     <table>
@@ -10,21 +12,21 @@
         <th class="price">Price</th>
         <th class="change">Change</th>
       </tr>
-        <tr class="tr" v-for="ticker in globalState.tickers" v-bind:key="ticker.symbol">
-          <td class="coin">{{ ticker.symbol }}</td>
-          <td class="close colored-text" v-bind:class="{
+      <tr class="tr" v-for="ticker in globalState.tickers" v-bind:key="ticker.symbol">
+        <td class="coin">{{ ticker.symbol }}</td>
+        <td class="close colored-text" v-bind:class="{
               up: ticker.close > ticker.lastClose,
               down: ticker.close < ticker.lastClose
             }">
-            {{ ticker.close }}
-            </td>
-          <td class="percent-change colored-text" v-bind:class="{
+          {{ ticker.close }}
+        </td>
+        <td class="percent-change colored-text" v-bind:class="{
               up: ticker.percentChange > 0,
               down : ticker.percentChange < 0
             }">
-            {{ ticker.percentChange + "%" }}
-          </td>
-        </tr>
+          {{ ticker.percentChange + "%" }}
+        </td>
+      </tr>
     </table>
   </div>
 </template>
@@ -52,18 +54,6 @@ export default {
     &:hover {
       background-color: var(--hover-background-color);
     }
-  }
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  th {
-    background-color: var(--header-color);
-  }
-  th,
-  td {
-    padding: 0.5em 0;
   }
 }
 
