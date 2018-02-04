@@ -25,7 +25,8 @@ window.store = {
     tickers: {},
     orders: [],
     snapshots: [],
-    balances: {}
+    balances: {},
+    cnyusd: 1
   },
   updatePrices (prices) {
     this.state.prices = prices
@@ -63,6 +64,9 @@ window.store = {
       b.total = b.available + b.onOrder;
     });
     this.state.balances = balances;
+  },
+  updateCnyusd (cnyusd) {
+    this.state.cnyusd = cnyusd;
   }
 }
 

@@ -58,5 +58,10 @@ export default {
         return get('/balances').then(res => {
             store.updateBalances(res.data);
         })
+    },
+    cnyusd() {
+        return get('/cnyusd').then(res => {
+            store.updateCnyusd(res.data);
+        });
     }
 }
