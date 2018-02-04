@@ -40,7 +40,8 @@ window.store = {
   updateOrders (orders) {
     orders.forEach(order => {
       order.symbol = formatSymbol(order.symbol);
-    })
+    });
+    orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
     this.state.orders = orders;
   }
 }
