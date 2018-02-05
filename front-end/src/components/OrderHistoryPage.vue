@@ -1,12 +1,16 @@
 <template>
   <div class="order-history-page page">
+    <label for="checkbox-hide-canceled">
+      <input type="checkbox" class="switch" id="checkbox-hide-canceled" v-model="isCanceledOrderHidden" />
+      <span class="text">{{ isCanceledOrderHidden ? "Show All Orders" : "Hide All Canceled" }}</span>
+    </label>
     <table>
       <tr>
         <th>Pair</th>
         <th>Avg. / Price</th>
         <th>Filled / Amount</th>
       </tr>
-      <tr class="order" v-for="order in globalState.orders" :key="order.orderId" :class="{ canceled: order.status == 'CANCELED' }">
+      <tr class="order" v-for="order in globalState.orders" :key="order.orderId" :class="{ canceled: order.status == 'CANCELED', 'hide-canceled': isCanceledOrderHidden }">
         <td class="pair">
           <div class="side-symbol">
             <div class="side-badge" :class="{ green: order.side == 'BUY', red: order.side == 'SELL' }">{{ order.side == 'BUY' ? "B" : "S" }}</div>
@@ -37,7 +41,8 @@ export default {
   name: "OrderHistoryPage",
   data() {
     return {
-      globalState: store.state
+      globalState: store.state,
+      isCanceledOrderHidden: true
     };
   },
   methods: {
@@ -83,6 +88,10 @@ export default {
   }
   &.canceled {
     opacity: 0.6;
+
+    &.hide-canceled {
+      display: none;
+    }
   }
 }
 </style>

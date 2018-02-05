@@ -162,8 +162,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../less/common.less";
-
 .hidden {
   display: none;
 }

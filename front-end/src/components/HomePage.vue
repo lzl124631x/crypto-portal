@@ -2,7 +2,6 @@
   <div class="home-page page">
     <div class="nav">
       <router-link class="nav-item" to="order-history">Order History</router-link>
-      <router-link class="nav-item" to="snapshot">Snapshots</router-link>
       <router-link class="nav-item" to="balance">Balance</router-link>
     </div>
 
