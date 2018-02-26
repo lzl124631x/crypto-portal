@@ -50,7 +50,7 @@ export default {
         });
     },
     deleteSnapshot(snapshot) {
-        return post('/deleteSnapshot', snapshot.timestamp).then(res => {
+        return post('/deleteSnapshot', { timestamp: snapshot.timestamp }).then(res => {
             store.deleteSnapshot(snapshot);
         });
     },
@@ -59,9 +59,9 @@ export default {
             store.updateBalances(res.data);
         })
     },
-    cnyusd() {
-        return get('/cnyusd').then(res => {
-            store.updateCnyusd(res.data);
+    usdcny() {
+        return get('/usdcny').then(res => {
+            store.updateusdcny(res.data);
         });
     }
 }

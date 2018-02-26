@@ -7,4 +7,4 @@
 1. [x] hide canceled orders
 1. [ ] show market order price
 1. [ ] precise filter
-1. [ ] getPrice should be base on snapshot cnyusd
+1. [ ] getPrice should be base on snapshot usdcny

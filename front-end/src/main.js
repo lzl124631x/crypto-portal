@@ -26,10 +26,13 @@ window.store = {
     orders: [],
     snapshots: [],
     balances: {},
-    cnyusd: 1
+    usdcny: 1,
+    basePrices: {}
   },
   updatePrices (prices) {
-    this.state.prices = prices
+    this.state.prices = prices;
+    Vue.set(this.state.basePrices, "BTC", this.state.prices["BTCUSDT"]);
+    Vue.set(this.state.basePrices, "ETH", this.state.prices["ETHUSDT"]);
   },
   updateTicker (ticker) {
     ticker.symbol = formatSymbol(ticker.symbol);
@@ -39,6 +42,11 @@ window.store = {
     }
 
     Vue.set(this.state.tickers, ticker.symbol, ticker);
+    
+    let btc = this.state.tickers["BTC/USDT"];
+    if (btc) {
+      document.title = +btc.close;
+    }
   },
   updateOrders (orders) {
     orders.forEach(order => {
@@ -65,8 +73,8 @@ window.store = {
     });
     this.state.balances = balances;
   },
-  updateCnyusd (cnyusd) {
-    this.state.cnyusd = cnyusd;
+  updateusdcny (usdcny) {
+    this.state.usdcny = usdcny;
   }
 }
 

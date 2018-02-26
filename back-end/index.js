@@ -61,22 +61,22 @@ app.post("/api/addSnapshot", (req, res) => {
 });
 
 app.post("/api/deleteSnapshot", (req, res) => {
-    deleteSnapshot(req.body, (snapshots) => {
+    deleteSnapshot(req.body.timestamp, (snapshots) => {
         res.send("");
     });
 });
 
-const cnyusdUrl = "https://www.binance.com/exchange/public/cnyusd";
-app.get("/api/cnyusd", (req, res) => {
-    axios.get(cnyusdUrl).then((cnyusd) => {
-        res.send(cnyusd.data.rate + "");
+const usdcnyUrl = "https://www.binance.com/exchange/public/cnyusd";
+app.get("/api/usdcny", (req, res) => {
+    axios.get(usdcnyUrl).then((usdcny) => {
+        res.send(usdcny.data.rate + "");
     });
 });
 
 const SnapshotFilePath = "./db/snapshots.json";
 function addSnapshot(snapshot, callback) {
     readSnapshots((snapshots) => {
-        snapshots.push(snapshot);
+        snapshots.unshift(snapshot);
         let json = JSON.stringify(snapshots);
         fs.writeFile(SnapshotFilePath, json, "utf8", () => {
             callback(snapshots);
@@ -84,9 +84,14 @@ function addSnapshot(snapshot, callback) {
     })
 }
 
-function deleteSnapshot(snapshot, callback) {
+function deleteSnapshot(timestamp, callback) {
     readSnapshots((snapshots) => {
-        let index = snapshots.findIndex(s => s.timestamp === snapshot.timestamp);
+        let index = snapshots.findIndex(s => s.timestamp === timestamp);
+        if (index == -1) {
+            console.log('notfound', timestamp)
+            callback(snapshots);
+            return;
+        }
         snapshots.splice(index, 1);
         let json = JSON.stringify(snapshots);
         fs.writeFile(SnapshotFilePath, json, "utf8", () => {
