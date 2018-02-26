@@ -10,7 +10,7 @@
         <th>Avg. / Price</th>
         <th>Filled / Amount</th>
       </tr>
-      <tr class="order" v-for="order in globalState.orders" :key="order.orderId" :class="{ canceled: order.status == 'CANCELED', 'hide-canceled': isCanceledOrderHidden }">
+      <tr class="order" v-for="order in globalState.orders[$route.params.symbol]" :key="order.orderId" :class="{ canceled: order.status == 'CANCELED', 'hide-canceled': isCanceledOrderHidden }">
         <td class="pair">
           <div class="side-symbol">
             <div class="side-badge" :class="{ green: order.side == 'BUY', red: order.side == 'SELL' }">{{ order.side == 'BUY' ? "B" : "S" }}</div>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import service from "../service";
 import moment from "moment";
 export default {
   name: "OrderHistoryPage",
@@ -44,6 +45,9 @@ export default {
       globalState: store.state,
       isCanceledOrderHidden: true
     };
+  },
+  mounted() {
+    service.orders(this.$route.params.symbol);
   },
   methods: {
     formatTime(time) {

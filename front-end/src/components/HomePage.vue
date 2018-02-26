@@ -1,7 +1,6 @@
 <template>
   <div class="home-page page">
     <div class="nav">
-      <router-link class="nav-item" to="order-history">Order History</router-link>
       <router-link class="nav-item" to="balance">Balance</router-link>
     </div>
 
@@ -10,6 +9,7 @@
         <th class="coin">Coin</th>
         <th class="price">Price</th>
         <th class="change">Change</th>
+        <th class="order-history">Order History</th>
       </tr>
       <tr class="tr" v-for="ticker in globalState.tickers" v-bind:key="ticker.symbol">
         <td class="coin">{{ ticker.symbol }}</td>
@@ -24,6 +24,9 @@
               down : ticker.percentChange < 0
             }">
           {{ ticker.percentChange + "%" }}
+        </td>
+        <td class="order-history">
+          <router-link class="nav-item" :to="{ name: 'OrderHistoryPage', params: { symbol: ticker.symbol }}">Order History</router-link>
         </td>
       </tr>
     </table>

@@ -23,7 +23,7 @@ window.store = {
   state: {
     prices: {},
     tickers: {},
-    orders: [],
+    orders: {},
     snapshots: [],
     balances: {},
     usdcny: 1,
@@ -35,7 +35,7 @@ window.store = {
     Vue.set(this.state.basePrices, "ETH", this.state.prices["ETHUSDT"]);
   },
   updateTicker (ticker) {
-    ticker.symbol = formatSymbol(ticker.symbol);
+    // ticker.symbol = formatSymbol(ticker.symbol);
     let prevTicker = this.state.tickers[ticker.symbol];
     if (prevTicker) {
       ticker.lastClose = prevTicker.close
@@ -48,12 +48,12 @@ window.store = {
       document.title = +btc.close;
     }
   },
-  updateOrders (orders) {
-    orders.forEach(order => {
-      order.symbol = formatSymbol(order.symbol);
-    });
+  updateOrders (symbol, orders) {
+    // orders.forEach(order => {
+    //   order.symbol = formatSymbol(order.symbol);
+    // });
     orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
-    this.state.orders = orders;
+    Vue.set(this.state.orders, symbol, orders);
   },
   addSnapshot(snapshot) {
     this.state.snapshots.unshift(snapshot);

@@ -10,7 +10,6 @@ export default {
   name: "App",
   mounted() {
     service.wsPrices();
-    service.orders();
   }
 };
 </script>

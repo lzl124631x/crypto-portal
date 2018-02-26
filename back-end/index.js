@@ -30,7 +30,7 @@ const portfolios = [
 ];
 
 app.get("/api/allOrders", (req, res) => {
-    binance.allOrders("ETHUSDT", (error, orders, symbol) => {
+    binance.allOrders(req.query.symbol, (error, orders, symbol) => {
         res.send(orders);
     });
 });

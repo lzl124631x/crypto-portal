@@ -14,7 +14,7 @@ export default new Router({
       component: HomePage
     },
     {
-      path: '/order-history',
+      path: '/order-history/:symbol',
       name: 'OrderHistoryPage',
       component: OrderHistoryPage
     },

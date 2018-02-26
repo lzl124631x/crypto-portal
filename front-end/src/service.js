@@ -3,8 +3,8 @@ import axios from 'axios'
 const backendUrl = '/api'
 const ws = new WebSocket('ws://localhost:3000')
 
-function get(url) {
-    return axios.get(backendUrl + url);
+function get(url, params) {
+    return axios.get(backendUrl + url, { params });
 }
 
 function post(url, params) {
@@ -34,9 +34,9 @@ export default {
             console.log('close');
         });
     },
-    orders() {
-        return get('/allOrders').then((res) => {
-            store.updateOrders(res.data);
+    orders(symbol) {
+        return get('/allOrders', { symbol }).then((res) => {
+            store.updateOrders(symbol, res.data);
         });
     },
     snapshots() {
