@@ -11,4 +11,4 @@
 1. [ ] Open Orders
 1. [ ] Trade History
 1. [ ] Transaction History
-1. [ ] Favorites
+1. [ ] Favorites (Portfolios)
