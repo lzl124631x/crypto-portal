@@ -5,19 +5,9 @@ import App from './App'
 import router from './router'
 import _ from 'lodash'
 
-const baseCoins = ["USDT", "BTC", "ETH", "BNB"];
+const BaseCoins = ["USDT", "BTC", "ETH", "BNB"];
 
 Vue.config.productionTip = false
-
-function formatSymbol(symbol) {
-  _.forEach(baseCoins, (base) => {
-    if (symbol.endsWith(base)) {
-      symbol = symbol.substr(0, symbol.length - base.length) + "/" + base;
-      return false;
-    }
-  });
-  return symbol;
-}
 
 window.store = {
   state: {
@@ -35,7 +25,6 @@ window.store = {
     Vue.set(this.state.basePrices, "ETH", this.state.prices["ETHUSDT"]);
   },
   updateTicker (ticker) {
-    // ticker.symbol = formatSymbol(ticker.symbol);
     let prevTicker = this.state.tickers[ticker.symbol];
     if (prevTicker) {
       ticker.lastClose = prevTicker.close
@@ -43,15 +32,12 @@ window.store = {
 
     Vue.set(this.state.tickers, ticker.symbol, ticker);
     
-    let btc = this.state.tickers["BTC/USDT"];
+    let btc = this.state.tickers["BTCUSDT"];
     if (btc) {
       document.title = +btc.close;
     }
   },
   updateOrders (symbol, orders) {
-    // orders.forEach(order => {
-    //   order.symbol = formatSymbol(order.symbol);
-    // });
     orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
     Vue.set(this.state.orders, symbol, orders);
   },
@@ -76,7 +62,26 @@ window.store = {
   updateusdcny (usdcny) {
     this.state.usdcny = usdcny;
   }
+};
+
+Vue.filter("formatSymbol", (symbol) => {
+  _.forEach(BaseCoins, (base) => {
+    if (symbol.endsWith(base)) {
+      symbol = symbol.substr(0, symbol.length - base.length) + "/" + base;
+      return false;
+    }
+  });
+  return symbol;
+});
+
+function formatDecimal (decimal) {
+  return +decimal.toPrecision(5);
 }
+Vue.filter("formatDecimal", formatDecimal);
+
+Vue.filter("formatPercentage", (decimal) => {
+  return (+formatDecimal(decimal * 100)) + "%";
+});
 
 /* eslint-disable no-new */
 new Vue({
@@ -84,4 +89,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});

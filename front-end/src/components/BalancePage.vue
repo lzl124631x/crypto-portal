@@ -1,38 +1,43 @@
 <template>
   <div class="balance-page page">
-    <div>USD/CNY: {{precise(globalState.usdcny)}}</div>
-    <label for="checkbox-hide-small-balance">
-      <input type="checkbox" class="switch" id="checkbox-hide-small-balance" v-model="isSmallBalanceHidden" />
-      <span class="text">{{ isSmallBalanceHidden ? "Show All Balances" : "Hide Small Balances" }}</span>
-    </label>
-    <table v-if="globalState.prices && globalState.balances">
-      <tr>
-        <th>Coin</th>
-        <th>Balance</th>
-        <th>Available</th>
-        <th>On Order</th>
-        <th>Price</th>
-        <th>Value</th>
-      </tr>
-      <tr v-for="(balance, symbol) in globalState.balances" v-bind:key="symbol" :class="{ hidden: HideItem(symbol, balance.total, globalState) }">
-        <td>{{symbol}}</td>
-        <td>{{balance.total}}</td>
-        <td>{{balance.available}}</td>
-        <td>{{balance.onOrder}}</td>
-        <td>{{getPrice(symbol, globalState)}}</td>
-        <td>{{getPrice(symbol, globalState) * balance.total}}</td>
-      </tr>
-    </table>
-    <div class="info-row">Grand Total: {{ grandTotal(globalState) }}</div>
-
-    <button class="btn btn-save-snapshot" @click="addSnapshot">Add Snapshot</button>
+    <div class="row">
+      <label for="checkbox-hide-small-balance">
+        <input type="checkbox" class="switch" id="checkbox-hide-small-balance" v-model="isSmallBalanceHidden" />
+        <span class="text">{{ isSmallBalanceHidden ? "Show All Balances" : "Hide Small Balances" }}</span>
+      </label>
+      <div class="usdcny pull-right">USD/CNY: {{ globalState.usdcny | formatDecimal }}</div>
+    </div>
+    <div class="card">
+      <table v-if="globalState.prices && globalState.balances">
+        <tr>
+          <th>Coin</th>
+          <th>Balance</th>
+          <th>Available</th>
+          <th>On Order</th>
+          <th>Price</th>
+          <th>Value</th>
+        </tr>
+        <tr v-for="(balance, symbol) in globalState.balances" v-bind:key="symbol" :class="{ hidden: HideItem(symbol, balance.total, globalState) }">
+          <td>{{symbol}}</td>
+          <td>{{balance.total | formatDecimal}}</td>
+          <td>{{balance.available | formatDecimal}}</td>
+          <td>{{balance.onOrder | formatDecimal}}</td>
+          <td>{{getPrice(symbol, globalState) | formatDecimal}}</td>
+          <td>{{getPrice(symbol, globalState) * balance.total | formatDecimal}}</td>
+        </tr>
+      </table>
+      <div class="row">Total: {{ grandTotal(globalState) }}</div>
+      <div class="row">
+        <button class="btn btn-save-snapshot pull-right" @click="addSnapshot">Add To Snapshot</button>
+      </div>
+    </div>
 
     <div class="snapshots">
       <div class="header">Snapshots</div>
-      <div class="snapshot" v-for="(snapshot, index) in globalState.snapshots" :key="snapshot.timestamp">
-        <div class="timestamp">
+      <div class="card" v-for="(snapshot, index) in globalState.snapshots" :key="snapshot.timestamp">
+        <div class="timestamp row">
           {{ moment(snapshot.timestamp).format("YYYY-MM-DD hh:mm:ss")}}
-          <button class="btn btn-delete-snapshot" @click="deleteSnapshot(snapshot)">Delete</button>
+          <button class="btn btn-delete-snapshot pull-right" @click="deleteSnapshot(snapshot)">Delete</button>
         </div>
         <table>
           <tr>
@@ -45,15 +50,15 @@
           </tr>
           <tr v-for="(balance, symbol) in snapshot.balances" v-bind:key="symbol" :class="{ hidden: HideItem(symbol, balance.total, snapshot) }">
             <td>{{symbol}}</td>
-            <td>{{balance.total}}</td>
-            <td>{{ balanceChange(index, symbol) }}</td>
-            <td>{{ getPrice(symbol, snapshot) }}</td>
-            <td>{{ priceChange(index, symbol) }}</td>
-            <td>{{ getPrice(symbol, snapshot) * balance.total }}</td>
+            <td>{{balance.total | formatDecimal}}</td>
+            <td>{{ balanceChange(index, symbol) | formatPercentage }}</td>
+            <td>{{ getPrice(symbol, snapshot) | formatDecimal }}</td>
+            <td>{{ priceChange(index, symbol) | formatPercentage }}</td>
+            <td>{{ getPrice(symbol, snapshot) * balance.total | formatDecimal }}</td>
           </tr>
         </table>
-        <div class="info-row">Grand Total: {{ grandTotal(snapshot) }}</div>
-        <div class="info-row">Grand Total Change: {{ grandTotalChange(index)}}</div>
+        <div class="row">Total: {{ grandTotal(snapshot) }}</div>
+        <div class="row">Total Change: {{ grandTotalChange(index) | formatPercentage }}</div>
       </div>
     </div>
   </div>
@@ -147,7 +152,7 @@ export default {
         return "-";
       }
       let prev = prevBalance.total;
-      return this.percent((curr - prev) / prev);
+      return (curr - prev) / prev;
     },
     priceChange(index, symbol) {
       let snapshots = store.state.snapshots;
@@ -156,13 +161,7 @@ export default {
       }
       let curr = this.getPrice(symbol, snapshots[index]);
       let prev = this.getPrice(symbol, snapshots[index + 1]);
-      return this.percent((curr - prev) / prev);
-    },
-    precise(x) {
-      return x.toPrecision(4);
-    },
-    percent(x) {
-      return this.precise(x) * 100 + "%";
+      return (curr - prev) / prev;
     },
     grandTotal(snapshot) {
       return _.reduce(
@@ -180,38 +179,25 @@ export default {
       }
       let curr = this.grandTotal(snapshots[index]);
       let prev = this.grandTotal(snapshots[index + 1]);
-      return this.percent((curr - prev) / prev);
+      return (curr - prev) / prev;
     }
   }
 };
 </script>
 
 <style scoped lang="less">
+@import "../less/common.less";
+
 .hidden {
   display: none;
 }
 
-.btn {
-  appearance: none;
-  border: 0;
-  padding: 0.5em 1em;
-  color: var(--text-color);
-  background-color: var(--btn-background-color);
-  &:hover {
-    background-color: var(--hover-background-color);
-  }
-}
-
 .snapshots {
-  margin-top: 1em;
-  .header {
-    padding: 0.5em;
-  }
+  margin-top: @default-space;
 }
 
-.info-row,
-.timestamp {
-  padding: 0.5em;
+.usdcny {
+  padding: @default-space-div-2;
 }
 </style>
 

@@ -1,1 +1,51 @@
 @import "_switch.less";
+@default-space: 1em;
+@default-space-div-2: .5em;
+.pull-right {
+    float: right;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.row {
+    &:extend(.clearfix all);
+    padding: @default-space-div-2;
+    text-align: left;
+}
+
+.header {
+    &:extend(.row);
+    font-size: 1.5em;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+.card {
+    margin: @default-space @default-space-div-2;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-background-color);
+}
+
+.btn {
+    a& {
+        text-decoration: none;
+    }
+    
+    display: inline-block;
+    appearance: none;
+    border: 0;
+    padding: 0.5em 1em;
+    color: var(--text-color);
+    background-color: var(--btn-background-color);
+    transition: background-color 0.15s ease-in-out;
+    &:hover {
+        background-color: var(--hover-background-color);
+    }
+}

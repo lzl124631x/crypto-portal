@@ -24,6 +24,7 @@ export default {
 
 :root {
   --background-color: #fff;
+  --card-background-color: #f6f6f6;
   --text-color: #333;
   --header-color: #ddd;
   --green: #70a800;
@@ -35,7 +36,8 @@ export default {
 }
 
 .night-mode {
-  --background-color: #333;
+  --background-color: #191919;
+  --card-background-color: #2f2f31;
   --text-color: #fff;
   --header-color: #444;
   --green: #81d468;
@@ -90,8 +92,13 @@ table {
 }
 
 label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  padding: @default-space-div-2;
+  transition: background-color 0.15s ease-in-out;
+  &:hover {
+    background-color: var(--border-color);
+  }
   cursor: pointer;
   .text {
     padding-left: 0.5em;

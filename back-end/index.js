@@ -44,14 +44,14 @@ app.get("/api/ticker/prices", (req, res) => {
 app.get("/api/balances", (req, res) => {
     binance.balance((error, balances) => {
         res.send(balances);
-    })
+    });
 });
 
 
 app.get("/api/snapshots", (req, res) => {
     readSnapshots((data) => {
         res.send(data);
-    })
+    });
 });
 
 app.post("/api/addSnapshot", (req, res) => {
@@ -81,7 +81,7 @@ function addSnapshot(snapshot, callback) {
         fs.writeFile(SnapshotFilePath, json, "utf8", () => {
             callback(snapshots);
         });
-    })
+    });
 }
 
 function deleteSnapshot(timestamp, callback) {
@@ -97,27 +97,27 @@ function deleteSnapshot(timestamp, callback) {
         fs.writeFile(SnapshotFilePath, json, "utf8", () => {
             callback(snapshots);
         });
-    })
+    });
 }
 
 function readSnapshots(callback) {
     fs.readFile(SnapshotFilePath, "utf8", (error, data) => {
         let snapshots = JSON.parse(data);
         callback(snapshots);
-    })
+    });
 }
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server })
 wss.on("connection", (ws, req) => {
-    console.log("connection");
+    console.log("Connection established.");
 
     ws.on("message", (message) => {
-        console.log("message", message)
+        console.log("Received message:", message)
     });
 
     ws.on("error", () => {
-        console.log("err");
+        console.log("Error occurred.");
     });
 
     binance.websockets.prevDay(false, (error, response) => {
@@ -127,4 +127,4 @@ wss.on("connection", (ws, req) => {
     });
 });
 
-server.listen(3000, () => console.log("Listening on %d", server.address().port))
+server.listen(3000, () => console.log("Listening on %d", server.address().port));

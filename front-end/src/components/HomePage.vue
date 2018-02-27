@@ -1,35 +1,36 @@
 <template>
   <div class="home-page page">
     <div class="nav">
-      <router-link class="nav-item" to="balance">Balance</router-link>
+      <router-link class="btn" to="balance">Balance</router-link>
     </div>
-
-    <table>
-      <tr class="table-header">
-        <th class="coin">Coin</th>
-        <th class="price">Price</th>
-        <th class="change">Change</th>
-        <th class="order-history">Order History</th>
-      </tr>
-      <tr class="tr" v-for="ticker in globalState.tickers" v-bind:key="ticker.symbol">
-        <td class="coin">{{ ticker.symbol }}</td>
-        <td class="close colored-text" v-bind:class="{
+    <div class="card">
+      <table>
+        <tr class="table-header">
+          <th class="coin">Coin</th>
+          <th class="price">Price</th>
+          <th class="change">Change</th>
+          <th class="order-history">Order History</th>
+        </tr>
+        <tr class="tr" v-for="ticker in globalState.tickers" v-bind:key="ticker.symbol">
+          <td class="coin">{{ ticker.symbol | formatSymbol }}</td>
+          <td class="close colored-text" v-bind:class="{
               up: ticker.close > ticker.lastClose,
               down: ticker.close < ticker.lastClose
             }">
-          {{ ticker.close }}
-        </td>
-        <td class="percent-change colored-text" v-bind:class="{
+            {{ ticker.close }}
+          </td>
+          <td class="percent-change colored-text" v-bind:class="{
               up: ticker.percentChange > 0,
               down : ticker.percentChange < 0
             }">
-          {{ ticker.percentChange + "%" }}
-        </td>
-        <td class="order-history">
-          <router-link class="nav-item" :to="{ name: 'OrderHistoryPage', params: { symbol: ticker.symbol }}">Order History</router-link>
-        </td>
-      </tr>
-    </table>
+            {{ ticker.percentChange + "%" }}
+          </td>
+          <td class="order-history">
+            <router-link class="btn" :to="{ name: 'OrderHistoryPage', params: { symbol: ticker.symbol }}">View</router-link>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -46,18 +47,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.nav {
-  a.nav-item {
-    display: inline-block;
-    padding: 0.5em 1em;
-    color: var(--text-color);
-    text-decoration: none;
-
-    &:hover {
-      background-color: var(--hover-background-color);
-    }
-  }
-}
+@import "../less/common.less";
 
 .colored-text {
   &.up {
@@ -66,6 +56,10 @@ export default {
   &.down {
     color: var(--red);
   }
+}
+
+.order-history {
+  font-size: 0.8em;
 }
 </style>
 

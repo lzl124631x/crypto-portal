@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const backendUrl = '/api'
-const ws = new WebSocket('ws://localhost:3000')
+const backendUrl = '/api';
+const ws = new WebSocket('ws://localhost:3000');
 
 function get(url, params) {
     return axios.get(backendUrl + url, { params });
@@ -14,12 +14,12 @@ function post(url, params) {
 export default {
     prices() {
         return get('/ticker/prices').then((res) => {
-            store.updatePrices(res.data)
-        })
+            store.updatePrices(res.data);
+        });
     },
     wsPrices() {
         ws.addEventListener('open', () => {
-            ws.send('something');
+            ws.send('front-end: Hi.');
         });
 
         ws.addEventListener('message', (res) => {
