@@ -1,5 +1,6 @@
 <template>
   <div class="balance-page page">
+    <div class="header">Balances</div>
     <div class="row">
       <label for="checkbox-hide-small-balance">
         <input type="checkbox" class="switch" id="checkbox-hide-small-balance" v-model="isSmallBalanceHidden" />
@@ -26,7 +27,9 @@
           <td>{{getPrice(symbol, globalState) * balance.total | formatDecimal}}</td>
         </tr>
       </table>
-      <div class="row">Total: {{ grandTotal(globalState) }}</div>
+      <div class="row">Total:
+        <span>{{ grandTotal(globalState) }}</span>
+      </div>
       <div class="row">
         <button class="btn btn-save-snapshot pull-right" @click="addSnapshot">Add To Snapshot</button>
       </div>
@@ -57,8 +60,12 @@
             <td>{{ getPrice(symbol, snapshot) * balance.total | formatDecimal }}</td>
           </tr>
         </table>
-        <div class="row">Total: {{ grandTotal(snapshot) }}</div>
-        <div class="row">Total Change: {{ grandTotalChange(index) | formatPercentage }}</div>
+        <div class="row">Total:
+          <span class="value">{{ grandTotal(snapshot) }}</span>
+        </div>
+        <div class="row">Total Change:
+          <span class="value">{{ grandTotalChange(index) | formatPercentage }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -188,16 +195,16 @@ export default {
 <style scoped lang="less">
 @import "../less/common.less";
 
-.hidden {
-  display: none;
-}
-
 .snapshots {
   margin-top: @default-space;
 }
 
 .usdcny {
   padding: @default-space-div-2;
+}
+
+.value {
+  font-weight: bold;
 }
 </style>
 
