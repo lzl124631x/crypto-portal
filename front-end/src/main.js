@@ -80,7 +80,8 @@ function formatDecimal (decimal) {
 Vue.filter("formatDecimal", formatDecimal);
 
 Vue.filter("formatPercentage", (decimal) => {
-  return (+formatDecimal(decimal * 100)) + "%";
+  let val = formatDecimal(decimal * 100);
+  return isNaN(val) ? "-" : `${val}%`;
 });
 
 /* eslint-disable no-new */
