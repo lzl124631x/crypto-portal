@@ -1,5 +1,9 @@
 <template>
   <div id="app" class="night-mode">
+    <div class="navbar">
+      <router-link class="btn" to="/">Home</router-link>
+      <router-link class="btn" to="balance">Balance</router-link>
+    </div>
     <router-view/>
   </div>
 </template>
@@ -104,5 +108,11 @@ label {
     padding-left: 0.5em;
     font-size: 0.8em;
   }
+}
+
+.navbar {
+  padding: 0 @default-space-div-2;
+  background-color: var(--card-background-color);
+  text-align: left;
 }
 </style>

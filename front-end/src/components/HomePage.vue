@@ -1,8 +1,5 @@
 <template>
   <div class="home-page page">
-    <div class="nav">
-      <router-link class="btn" to="balance">Balance</router-link>
-    </div>
     <div class="card">
       <table>
         <tr class="table-header">
