@@ -20,7 +20,7 @@
               <div class="symbol">{{ order.symbol | formatSymbol }}</div>
             </div>
             <div class="time">
-              {{ formatTime(order.time) }}
+              {{ order.time | formatTime }}
             </div>
           </td>
 
@@ -53,55 +53,10 @@ export default {
   mounted() {
     service.orders(this.$route.params.symbol);
   },
-  methods: {
-    formatTime(time) {
-      return moment(time).format("MM-DD hh:mm:ss");
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style scoped lang="less">
 @import "../less/common.less";
-
-.pair {
-  .side-badge {
-    display: inline-block;
-    font-size: 0.8em;
-    border-radius: 0.4em;
-    padding: 0.1em 0.3em;
-    &.green {
-      background-color: var(--green);
-    }
-    &.red {
-      background-color: var(--red);
-    }
-  }
-  .symbol {
-    display: inline-block;
-  }
-
-  .time {
-    font-size: 0.8em;
-    color: var(--secondary-text-color);
-  }
-}
-
-.price,
-.amount {
-  color: var(--secondary-text-color);
-}
-
-.order {
-  &:not(.canceled) {
-    background-color: var(--highlight-background-color);
-  }
-  &.canceled {
-    opacity: 0.6;
-
-    &.hide-canceled {
-      display: none;
-    }
-  }
-}
 </style>

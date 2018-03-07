@@ -47,6 +47,11 @@ app.get("/api/balances", (req, res) => {
     });
 });
 
+app.get("/api/openOrders", (req, res) => {
+    binance.openOrders(req.query.symbol, (error, openOrders, symbol) => {
+        res.send(openOrders);
+    });
+});
 
 app.get("/api/snapshots", (req, res) => {
     readSnapshots((data) => {

@@ -3,6 +3,7 @@
     <div class="navbar">
       <router-link class="btn" to="/">Home</router-link>
       <router-link class="btn" to="balance">Balance</router-link>
+      <router-link class="btn" to="open-orders">OpenOrders</router-link>
     </div>
     <router-view/>
   </div>
@@ -112,7 +113,19 @@ label {
 
 .navbar {
   padding: 0 @default-space-div-2;
-  background-color: var(--card-background-color);
-  text-align: left;
+  background-color: var(--border-color);
+  display: flex;
+
+  .btn {
+    background-color: var(--border-color);
+    color: var(--secondary-text-color);
+    font-size: 0.8em;
+    padding: @default-space-l @default-space;
+
+    &:hover {
+      color: var(--text-color);
+      background-color: var(--background-color);
+    }
+  }
 }
 </style>

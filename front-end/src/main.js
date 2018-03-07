@@ -1,9 +1,10 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import _ from 'lodash'
+import Vue from "vue";
+import App from "./App";
+import router from "./router";
+import _ from "lodash";
+import moment from "moment";
 
 const BaseCoins = ["USDT", "BTC", "ETH", "BNB"];
 
@@ -17,7 +18,8 @@ window.store = {
     snapshots: [],
     balances: {},
     usdcny: 1,
-    basePrices: {}
+    basePrices: {},
+    openOrders: {}
   },
   updatePrices (prices) {
     this.state.prices = prices;
@@ -38,7 +40,7 @@ window.store = {
     }
   },
   updateOrders (symbol, orders) {
-    orders = _.orderBy(orders, [ 'time' ], [ 'desc' ]);
+    orders = _.orderBy(orders, [ "time" ], [ "desc" ]);
     Vue.set(this.state.orders, symbol, orders);
   },
   addSnapshot(snapshot) {
@@ -61,6 +63,14 @@ window.store = {
   },
   updateusdcny (usdcny) {
     this.state.usdcny = usdcny;
+  },
+  updateOpenOrders (symbol, openOrders) {
+    if (symbol) {
+      Vue.set(this.state.openOrders, symbol, openOrders);
+    } else {
+      openOrders = _.orderBy(openOrders, [ "time" ], [ "desc" ]);
+      Vue.set(this.state, "openOrders", openOrders);
+    }
   }
 };
 
@@ -84,10 +94,14 @@ Vue.filter("formatPercentage", (decimal) => {
   return isNaN(val) ? "-" : `${val}%`;
 });
 
+Vue.filter("formatTime", (time) => {
+  return moment(time).format("MM-DD hh:mm:ss");
+});
+
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
   components: { App },
-  template: '<App/>'
+  template: "<App/>"
 });

@@ -1,6 +1,8 @@
 @import "_switch.less";
 @default-space: 1em;
+@default-space-l: 1.5em;
 @default-space-div-2: .5em;
+
 .pull-right {
     float: right;
 }
@@ -37,7 +39,6 @@
     a& {
         text-decoration: none;
     }
-    
     display: inline-block;
     appearance: none;
     border: 0;
@@ -52,4 +53,46 @@
 
 .hidden {
     display: none;
-  }
+}
+
+
+/* styles shared by orders page */
+
+.pair {
+    .side-badge {
+        display: inline-block;
+        font-size: 0.8em;
+        border-radius: 0.4em;
+        padding: 0.1em 0.3em;
+        &.green {
+            background-color: var(--green);
+        }
+        &.red {
+            background-color: var(--red);
+        }
+    }
+    .symbol {
+        display: inline-block;
+    }
+    .time {
+        font-size: 0.8em;
+        color: var(--secondary-text-color);
+    }
+}
+
+.price,
+.amount {
+    color: var(--secondary-text-color);
+}
+
+.order {
+    &:not(.canceled) {
+        background-color: var(--highlight-background-color);
+    }
+    &.canceled {
+        opacity: 0.6;
+        &.hide-canceled {
+            display: none;
+        }
+    }
+}

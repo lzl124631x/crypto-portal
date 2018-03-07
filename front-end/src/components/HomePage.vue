@@ -1,5 +1,6 @@
 <template>
   <div class="home-page page">
+    <div class="header">Home</div>
     <div class="card">
       <table>
         <tr class="table-header">
