@@ -15,13 +15,13 @@
               up: ticker.close > ticker.lastClose,
               down: ticker.close < ticker.lastClose
             }">
-            {{ ticker.close }}
+            {{ ticker.close | formatDecimal }}
           </td>
           <td class="percent-change colored-text" v-bind:class="{
               up: ticker.percentChange > 0,
               down : ticker.percentChange < 0
             }">
-            {{ ticker.percentChange + "%" }}
+            {{ ticker.percentChange / 100 | formatPercentage }}
           </td>
           <td class="order-history">
             <router-link class="btn" :to="{ name: 'OrderHistoryPage', params: { symbol: ticker.symbol }}">View</router-link>

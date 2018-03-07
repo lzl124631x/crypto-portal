@@ -28,7 +28,7 @@
         </tr>
       </table>
       <div class="row">Total:
-        <span>{{ grandTotal(globalState) }}</span>
+        <span>{{ grandTotal(globalState) | formatDecimal }}</span>
       </div>
       <div class="row">
         <button class="btn btn-save-snapshot pull-right" @click="addSnapshot">Add To Snapshot</button>
@@ -61,7 +61,7 @@
           </tr>
         </table>
         <div class="row">Total:
-          <span class="value">{{ grandTotal(snapshot) }}</span>
+          <span class="value">{{ grandTotal(snapshot) | formatDecimal }}</span>
         </div>
         <div class="row">Total Change:
           <span class="value">{{ grandTotalChange(index) | formatPercentage }}</span>

@@ -85,7 +85,7 @@ Vue.filter("formatSymbol", (symbol) => {
 });
 
 function formatDecimal (decimal) {
-  return +decimal.toPrecision(5);
+  return +(+decimal).toPrecision(5);
 }
 Vue.filter("formatDecimal", formatDecimal);
 

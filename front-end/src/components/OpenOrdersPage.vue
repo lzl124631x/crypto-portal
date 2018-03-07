@@ -20,13 +20,13 @@
                     </td>
 
                     <td class="avg-price">
-                        <div class="avg-price">{{ order.price }}</div>
-                        <div class="price">{{ order.price }} / {{ order.type }}</div>
+                        <div class="avg-price">{{ order.price | formatDecimal }}</div>
+                        <div class="price">{{ order.price | formatDecimal }} / {{ order.type }}</div>
                     </td>
 
                     <td class="filled-amount">
-                        <div class="filled">{{ order.executedQty}}</div>
-                        <div class="amount">{{ order.origQty}} </div>
+                        <div class="filled">{{ order.executedQty | formatDecimal}}</div>
+                        <div class="amount">{{ order.origQty | formatDecimal}} </div>
                     </td>
                 </tr>
             </table>
